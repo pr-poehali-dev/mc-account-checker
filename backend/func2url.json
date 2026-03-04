@@ -1,4 +1,5 @@
 {
+  "yandex-auth-yandex-auth": "https://functions.poehali.dev/fd906f57-f15c-4c93-a3e0-174a893bcbbb",
   "yookassa-yookassa": "https://functions.poehali.dev/6d79de98-88da-4099-9322-0ef24675c8e9",
   "yookassa-yookassa-webhook": "https://functions.poehali.dev/386cb91d-07da-407f-8eb4-2fb36843a3f7"
 }

@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 import Icon from "@/components/ui/icon";
+import { YandexLoginButton } from "@/components/extensions/yandex-auth/YandexLoginButton";
+import { useYandexAuth } from "@/components/extensions/yandex-auth/useYandexAuth";
+import func2url from "../../func2url.json";
+
+const AUTH_URL = func2url["yandex-auth-yandex-auth"];
 
 type Page = "home" | "register" | "login" | "dashboard" | "plans" | "payment";
 type PlanId = "vip1" | "vip2" | "vip3" | "deluxe";
@@ -126,6 +131,31 @@ export default function Index() {
   const [page, setPage] = useState<Page>("home");
   const [user, setUser] = useState<User | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<PlanId | null>(null);
+
+  const yandexAuth = useYandexAuth({
+    apiUrls: {
+      authUrl: `${AUTH_URL}?action=auth-url`,
+      callback: `${AUTH_URL}?action=callback`,
+      refresh: `${AUTH_URL}?action=refresh`,
+      logout: `${AUTH_URL}?action=logout`,
+    },
+    onAuthChange: (yUser) => {
+      if (yUser) {
+        const newUser: User = {
+          username: yUser.name || yUser.email || "Яндекс пользователь",
+          email: yUser.email || "",
+          password: "",
+          plan: null,
+          planExpiry: null,
+          checksUsed: 0,
+          registeredAt: new Date().toLocaleString("ru-RU"),
+          alerts: [],
+        };
+        saveUser(newUser);
+        setPage("dashboard");
+      }
+    },
+  });
 
   // Auth forms
   const [regUsername, setRegUsername] = useState("");
@@ -450,6 +480,12 @@ export default function Index() {
               Создать аккаунт
             </button>
           </div>
+          <div className="flex items-center gap-3 my-4">
+            <div className="flex-1 h-px bg-white/10" />
+            <span className="text-gray-600 text-xs">или</span>
+            <div className="flex-1 h-px bg-white/10" />
+          </div>
+          <YandexLoginButton onClick={yandexAuth.login} isLoading={yandexAuth.isLoading} className="w-full justify-center" />
           <p className="text-center text-gray-500 text-sm mt-6">
             Уже есть аккаунт?{" "}
             <button onClick={() => { setPage("login"); setAuthError(""); }} className="text-[#7c6ff7] hover:underline">Войти</button>
@@ -510,6 +546,12 @@ export default function Index() {
               Войти
             </button>
           </div>
+          <div className="flex items-center gap-3 my-4">
+            <div className="flex-1 h-px bg-white/10" />
+            <span className="text-gray-600 text-xs">или</span>
+            <div className="flex-1 h-px bg-white/10" />
+          </div>
+          <YandexLoginButton onClick={yandexAuth.login} isLoading={yandexAuth.isLoading} className="w-full justify-center" />
           <p className="text-center text-gray-500 text-sm mt-6">
             Нет аккаунта?{" "}
             <button onClick={() => { setPage("register"); setAuthError(""); }} className="text-[#7c6ff7] hover:underline">Зарегистрироваться</button>
