@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useYandexAuth } from "@/components/extensions/yandex-auth/useYandexAuth";
-import func2url from "../../func2url.json";
 
-const AUTH_URL = func2url["yandex-auth-yandex-auth"];
+const AUTH_URL = "https://functions.poehali.dev/fd906f57-f15c-4c93-a3e0-174a893bcbbb";
 
 export default function YandexCallback() {
   const navigate = useNavigate();

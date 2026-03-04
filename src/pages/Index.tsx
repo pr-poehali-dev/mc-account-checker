@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import Icon from "@/components/ui/icon";
 import { YandexLoginButton } from "@/components/extensions/yandex-auth/YandexLoginButton";
 import { useYandexAuth } from "@/components/extensions/yandex-auth/useYandexAuth";
-import func2url from "../../func2url.json";
-
-const AUTH_URL = func2url["yandex-auth-yandex-auth"];
+const AUTH_URL = "https://functions.poehali.dev/fd906f57-f15c-4c93-a3e0-174a893bcbbb";
 
 type Page = "home" | "register" | "login" | "dashboard" | "plans" | "payment";
 type PlanId = "vip1" | "vip2" | "vip3" | "deluxe";
